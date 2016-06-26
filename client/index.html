@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en" data-framework="choo">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HPS</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+    <style>
+
+    .select-style {
+    padding: 0;
+    margin: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.select-style select {
+  border: none;
+  margin: 1em 0;
+  border-bottom: 1px solid #191919;
+    padding: 1em 0;
+    width: 100%;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+
+
+    .grow {
+      box-shadow: none;
+      transition: 0.28s ease-out;
+      font-size: 0.9em;
+      font-weight: normal;
+    }
+
+    .grow:hover {
+      z-index: 10;
+      margin: 15px -20px;
+      box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3);
+    }
+
+
+    .toolbox {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .context-menu-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+
+    .ellipsis-v::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 14px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: repeating-linear-gradient(to bottom,#999 0px, #999 3px, transparent 3px, transparent 5px);
+      transition: all .25s;
+    }
+
+    .context-menu li {
+      margin: 10px;
+    }
+    .context-menu {
+      display: none;
+      list-style: none;
+      cursor: pointer;
+      background-image: linear-gradient( 20deg, #50bff0 0%, #5090f0 100%);
+      z-index: 10;
+      position: absolute;
+      top: 30px;
+      right: 0px;
+      padding: 10px;
+      margin: 0;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.25);
+      min-width: 100px;
+    }
+
+    .open > .ellipsis-v {
+        background: #5090f0;
+    }
+
+    .open > .ellipsis-v::before {
+        background: repeating-linear-gradient(to bottom,#fff 0px, #fff 3px, transparent 3px, transparent 5px);
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .list-item {
+      padding: 1em;
+      position: relative;
+      background: #f8f8f8;
+    }
+
+    .open .context-menu {
+      display: block;
+    }
+
+    .context-menu li {
+      line-height: 26px;
+      font-size: 12px;
+      color: #fff;
+      padding: 0 10px;
+      white-space: nowrap;
+      cursor: pointer;
+      overflow: hidden;
+      font-weight: bold;
+      transition: all .25s;
+    }
+
+
+
+#payroll {
+  width: 80%;
+  margin: 1em auto;
+}
+
+#payroll fieldset {
+  border: 0;
+  padding: 30px;
+  margin-bottom: 2em;
+  background: #d5d5d5;
+}
+#payroll legend {
+  color: #fff;
+  padding: 5px;
+  font-weight: bold;
+  background: #f4695b;
+}
+#payroll .table {
+  display: table;
+  width: 100%;
+  margin-bottom: 12px;
+}
+#payroll .cell {
+  display: table-cell;
+}
+#payroll .cell.label {
+  width: 40%;
+  padding: 0 15px;
+}
+#payroll .cell.input {
+  width: 60%;
+  padding: 0 15px;
+}
+#payroll input {
+  width: 100%;
+}
+#payroll input[type='submit'] {
+    background: #f4695b;
+    border: none;
+    padding: 10px;
+    color: #fff;
+    font-weight: bold;
+}
+
+
+    .close {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 25px;
+      top: 25%;
+      left: 25%;
+      overflow: hidden;
+    }
+    .close.thick::before, .close.thick::after {
+      height: 4px;
+      margin-top: -2px;
+    }
+    .close:hover::before, .close:hover::after {
+      background: #fff;
+    }
+    .close::before, .close::after {
+      content: '';
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      top: 50%;
+      left: 10%;
+      margin-top: -1px;
+      background: #fff;
+    }
+    .close::before {
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    .close::after {
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+    .close.big {
+      -webkit-transform: scale(3);
+      -moz-transform: scale(3);
+      -ms-transform: scale(3);
+      -o-transform: scale(3);
+      transform: scale(3);
+    }
+    .close.hairline::before, .close.hairline::after {
+      height: 1px;
+    }
+
+    .circle {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 50%;
+      background: #ea4a55;
+    }
+
+    .mt {
+      margin-top: 2em !important;
+    }
+
+h1 {
+  font-family: "Sofia", cursive;
+}
+h2 {
+
+  font-family: "Sofia", cursive;
+  font-size: 15px;
+  font-weight: bold;
+  font-size: 3.6em;
+}
+#panel-1 {
+  margin-bottom: 2em;
+}
+
+#panel-1  h2 {
+color: #6D7781;
+font-family: "Sofia", cursive;
+font-size: 15px;
+font-weight: bold;
+font-size: 3.6em;
+text-align: center;
+margin-bottom: 20px;
+}
+
+a {
+color: #435160;
+text-decoration: none;
+}
+
+
+#panel-1 .login {
+width: 350px;
+margin: 0 auto;
+}
+
+#panel-1 input[type="text"], input[type="password"] {
+width: 350px;
+padding: 20px 0px;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #435160;
+outline: none;
+color: #6D7781;
+font-size: 16px;
+}
+#panel-1 input[type=checkbox] {
+display: none;
+}
+
+#panel-1 label {
+display: block;
+position: absolute;
+margin-right: 10px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: transparent;
+content: "";
+transition: all 0.3s ease-in-out;
+cursor: pointer;
+border: 3px solid #435160;
+}
+
+#agree:checked ~ label[for=agree] {
+background: #435160;
+}
+
+#panel-1 input[type="submit"] {
+background: #1FCE6D;
+border: 0;
+width: 350px;
+height: 40px;
+border-radius: 3px;
+color: #fff;
+font-size: 12px;
+cursor: pointer;
+transition: background 0.3s ease-in-out;
+}
+#panel-1 input[type="submit"]:hover {
+background: #16aa56;
+animation-name: shake;
+}
+
+#panel-1 .forgot {
+margin-top: 30px;
+display: block;
+font-size: 11px;
+text-align: center;
+font-weight: bold;
+}
+#panel-1 .forgot:hover {
+margin-top: 30px;
+display: block;
+font-size: 11px;
+text-align: center;
+font-weight: bold;
+color: #6D7781;
+}
+
+#panel-1 .agree {
+padding: 30px 0px;
+font-size: 12px;
+text-indent: 25px;
+line-height: 15px;
+}
+
+#panel-1 ::-webkit-input-placeholder {
+color: #435160;
+font-size: 12px;
+}
+
+#panel-1 .animated {
+animation-fill-mode: both;
+animation-duration: 1s;
+}
+
+@keyframes shake {
+0%, 100% {
+  transform: translateX(0);
+}
+10%, 30%, 50%, 70%, 90% {
+  transform: translateX(-10px);
+}
+20%, 40%, 60%, 80% {
+  transform: translateX(10px);
+}
+}
+
+
+
+
+#employees-list table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#employees-list table caption {
+  font-size: 0.8em;
+  text-align: left;
+  font-weight: bold;
+  margin: .25em 0 .75em;
+}
+#employees-list table tr {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+#employees-list table th, #employees-list table td {
+  padding: .625em;
+  text-align: left;
+}
+#employees-list table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+#employees-list table td img {
+  text-align: center;
+}
+@media screen and (max-width: 600px) {
+  #employees-list table {
+    border: 0;
+  }
+  #employees-list table caption {
+    font-size: 1.3em;
+  }
+  #employees-list table thead {
+    display: none;
+  }
+  #employees-list table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  #employees-list table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  #employees-list table td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  #employees-list table td:last-child {
+    border-bottom: 0;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <script src="dist/index.js"></script>
+    <footer class="info">
+      <p>Created by <a href="#">Anita Chepkiyach</a></p>
+    </footer>
+  </body>
+</html>

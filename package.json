@@ -6,9 +6,9 @@
   "scripts": {
     "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "npm run clean &&  mkdir dist && cp index.css dist/",
-    "compile": "npm run copy && browserify index.js -o dist/index.js -t babelify -t sheetify/transform -p [ css-extract -o dist/index.css ]",
-    "start": "npm run copy && budo index.js --serve=dist/index.js --open -- -t babelify -t sheetify/transform -p [ css-extract -o dist/index.css ]"
+    "copy": "npm run clean &&  mkdir dist && cp client/index.css dist/",
+    "compile": "npm run copy && browserify client/index.js -o dist/index.js -t babelify -t sheetify/transform -p [ css-extract -o dist/index.css ]",
+    "start": "npm run copy && budo client/index.js --serve=dist/index.js --dir=client/ --open -- -t babelify -t sheetify/transform -p [ css-extract -o dist/index.css ]"
   },
   "keywords": [
     "choo",
@@ -27,6 +27,10 @@
   },
   "dependencies": {
     "choo": "^2.2.1",
+    "feathers": "^2.0.1",
+    "feathers-hooks": "^1.5.4",
+    "feathers-socketio": "^1.4.1",
+    "socket.io-client": "^1.4.8",
     "xtend": "^4.0.1"
   }
 }
