@@ -14,35 +14,38 @@ const toggleMenu = event => {
 
 const closeMenu = e => e.target.parentNode.parentNode.className = "toolbox"
 
-const employees = (params, state, send) => choo.view`
-  <div id="employees-list">
-    <table>
-      <caption>All Records</caption>
-      <thead>
-        <tr> ${datapoints.map(key => choo.view`<th scope="col">${key}</th>`)} </tr>
-      </thead>
-      <tbody>
-        ${state.employees.map(item => choo.view`
-          <tr class="grow">
-            ${Object.keys(item).filter(k => k !== '_id').map(k => choo.view`
-              <td scope="row" data-label="${item[k]}">${item[k]}</td>
-            `)}
-            <td class="list-item">
-              <div class="toolbox">
-                <div class="context-menu-btn ellipsis-v" onclick=${toggleMenu}></div>
-                <ul class="context-menu" onclick=${closeMenu}>
-                  <li>Edit</li>
-                  <li>View</li>
-                  <li>Delete</li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-        `)}
-      </tbody>
-    </table>
-  </div>
-`
+const employees = (params, state, send) => {
+  const deleteEmployee = e => send('removeEmployee', { data: e.target.dataset.uuid })
+  return choo.view`
+    <div id="employees-list">
+      <table>
+        <caption>All Records</caption>
+        <thead>
+          <tr> ${datapoints.map(key => choo.view`<th scope="col">${key}</th>`)} </tr>
+        </thead>
+        <tbody>
+          ${state.employees.map(item => choo.view`
+            <tr class="grow">
+              ${Object.keys(item).filter(k => k !== '_id').map(k => choo.view`
+                <td scope="row" data-label="${item[k]}">${item[k]}</td>
+              `)}
+              <td class="list-item">
+                <div class="toolbox">
+                  <div class="context-menu-btn ellipsis-v" onclick=${toggleMenu}></div>
+                  <ul class="context-menu" onclick=${closeMenu}>
+                    <li>Edit</li>
+                    <li>View</li>
+                    <li onclick=${deleteEmployee} data-uuid=${item._id}>Delete</li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          `)}
+        </tbody>
+      </table>
+    </div>
+  `
+}
 
 const page = (params, state, send) => choo.view`
   <article id="panels">

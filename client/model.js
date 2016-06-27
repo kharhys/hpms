@@ -52,6 +52,15 @@ const fetchEmployee = (action, state, send) => {
     })
 }
 
+const removeEmployee = (action, state, send) => {
+  employeeService.remove(action.data )
+    .then(res => {
+      //console.log('removed employee: ', res)
+      send('spliceEmployee', { data: action.data })
+      send('app:location', { location: '/' })
+    })
+}
+
 
 module.exports = {
   state: {
@@ -64,6 +73,7 @@ module.exports = {
   subscriptions: [ employeeSubscription, paygradeSubscription ],
   effects: {
     findEmployee: fetchEmployee,
+    removeEmployee: removeEmployee,
     createEmployee: (action, state, send) => employeeService.create(action.data),
     createPaygrade: (action, state, send) => paygradeService.create(action.data)
   },
@@ -74,6 +84,7 @@ module.exports = {
     addPaygrade: (action, state) => ({ paygrades: state.paygrades.concat([action.data]) }),
     setEmployee: (action, state) => ({ employee: action.data  }),
     reportError: (action, state) => ({ error: action.data  }),
-    cachePayslip: (action, state) => ({ payslip: action.data  })
+    cachePayslip: (action, state) => ({ payslip: action.data  }),
+    spliceEmployee: (action, state) => ({ employees: state.employees.filter(it => it._id !== action.data ) })
   },
 }
