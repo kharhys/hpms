@@ -1,15 +1,40 @@
 const xtend = require('xtend')
-
+const http = require('choo/http')
 const io = require('socket.io-client')
 const hooks = require('feathers-hooks')
 const feathers = require('feathers/client')
 const socketio = require('feathers-socketio/client')
+const authentication = require('feathers-authentication/client')
 
 const socket = io('http://localhost:3030')
 
 const app = feathers()
     .configure(hooks())
     .configure(socketio(socket))
+    .configure(authentication({ storage: window.localStorage }))
+
+//console.log('window.jsPDF', window.jsPDF)
+
+const exportPDF = data => {
+  const doc = new jsPDF()
+  const node = document.getElementById(data.selector)
+
+  doc.fromHTML(node, 20, 20, {
+    'width': 500
+  })
+  doc.save(`payslip-${Date.now()}.pdf`)
+}
+
+
+const login = (action, state, send) => {
+  app.authenticate(Object.assign(action.data, { type: 'local' }))
+    .then(result => {
+      console.log('Authenticated: ', result)
+      send('setAuth', { data: { user: result.data, token: result.token } })
+      send('app:location', { location: '/employees' })
+    })
+    .catch(result => console.log('Error Authenticating: ', result))
+}
 
 const employeeService = app.service('employees')
 const paygradeService = app.service('paygrades')
@@ -20,7 +45,7 @@ const employeeSubscription = send => {
   employeeService.on('created', message => {
     console.log('employee added', message)
     send('addEmployee', { data: message })
-    send('app:location', { location: '/' })
+    send('app:location', { location: '/employees' })
   })
 }
 
@@ -64,6 +89,8 @@ const removeEmployee = (action, state, send) => {
 
 module.exports = {
   state: {
+    auth: {},
+    form: {},
     payslip: {},
     employee: {},
     employees: [],
@@ -72,19 +99,24 @@ module.exports = {
   },
   subscriptions: [ employeeSubscription, paygradeSubscription ],
   effects: {
+    login: login,
+    exportPDF: exportPDF,
     findEmployee: fetchEmployee,
     removeEmployee: removeEmployee,
     createEmployee: (action, state, send) => employeeService.create(action.data),
     createPaygrade: (action, state, send) => paygradeService.create(action.data)
   },
   reducers: {
-    loadEmployees: (action, state) => ({ employees: action.data  }),
-    addEmployee: (action, state) => ({ employees: state.employees.concat([action.data]) }),
-    loadPaygrades: (action, state) => ({ paygrades: action.data  }),
-    addPaygrade: (action, state) => ({ paygrades: state.paygrades.concat([action.data]) }),
-    setEmployee: (action, state) => ({ employee: action.data  }),
-    reportError: (action, state) => ({ error: action.data  }),
-    cachePayslip: (action, state) => ({ payslip: action.data  }),
-    spliceEmployee: (action, state) => ({ employees: state.employees.filter(it => it._id !== action.data ) })
+    authError: (action, state) => Object.assign(state, { auth: { error: action.data  } }),
+    formError: (action, state) => Object.assign(state, { form: { errors: action.data.errors, data: action.data.formdata } }),
+    setAuth: (action, state) => Object.assign(state, { auth: action.data }),
+    loadEmployees: (action, state) => Object.assign(state, { employees: action.data  }),
+    addEmployee: (action, state) => Object.assign(state, { employees: state.employees.concat([action.data]) }),
+    loadPaygrades: (action, state) => Object.assign(state, { paygrades: action.data  }),
+    addPaygrade: (action, state) => Object.assign(state, { paygrades: state.paygrades.concat([action.data]) }),
+    setEmployee: (action, state) => Object.assign(state, { employee: action.data  }),
+    reportError: (action, state) => Object.assign(state, { error: action.data  }),
+    cachePayslip: (action, state) => Object.assign(state, { payslip: action.data  }),
+    spliceEmployee: (action, state) => Object.assign(state, { employees: state.employees.filter(it => it._id !== action.data ) })
   },
 }

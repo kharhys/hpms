@@ -17,17 +17,17 @@
 }
 
 .select-style select {
+  width: 100%;
   border: none;
-  margin: 1em 0;
+  padding: 1.4rem;
+  box-shadow: none;
+  margin-bottom: 1rem;
   border-bottom: 1px solid #191919;
-    padding: 1em 0;
-    width: 100%;
-    box-shadow: none;
-    background-color: transparent;
-    background-image: none;
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+  background-color: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .select-style select:focus {
@@ -270,7 +270,31 @@ text-decoration: none;
 width: 350px;
 margin: 0 auto;
 }
+#panel-1 input {
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
 
+#panel-1 input.error, .error > select {
+  border: 1px solid #ea4a55 !important;
+}
+
+.error::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #ea4a55 !important;
+}
+
+.error > select {
+  color: #ea4a55;
+}
+
+select {
+  text-align: center;
+  text-align-last: center;
+  /* webkit*/
+}
+option {
+  text-align: center;
+}
 #panel-1 input[type="text"], input[type="password"] {
 width: 350px;
 padding: 20px 0px;
@@ -432,6 +456,7 @@ animation-duration: 1s;
     </style>
   </head>
   <body>
+    <script src="https://cdn.rawgit.com/MrRio/jsPDF/master/dist/jspdf.debug.js"></script>
     <script src="dist/index.js"></script>
     <footer class="info">
       <p>Created by <a href="#">Anita Chepkiyach</a></p>

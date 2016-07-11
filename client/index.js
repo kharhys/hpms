@@ -8,9 +8,10 @@ const app = choo()
 app.model(require('./model'))
 
 app.router((route) => [
-  route('/payrolls', require('./views/payroll')),
-  route('/', require('./views/employees')),
+  route('/', require('./views/auth')),
   route('/payslip', require('./views/payslip')),
+  route('/payrolls', require('./views/payroll')),
+  route('/employees', require('./views/employees')),
   route('/paygrades', require('./views/paygrades')),
   route('/addpaygrade', require('./views/paygrades/add')),
   route('/addemployee', require('./views/employees/add')),

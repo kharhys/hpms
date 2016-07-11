@@ -4,6 +4,10 @@ const menu = require('./menu')
 
 const form = (params, state, send) => {
   console.log('state.payslip', state.payslip)
+  const onSubmit = event => {
+    event.preventDefault()
+    send('exportPDF', { selector: "payroll-page" })
+  }
   return choo.view`
     <section id="payroll-page" class="page">
       <header>
@@ -13,15 +17,15 @@ const form = (params, state, send) => {
         </div>
       </header>
       <main>
-        <form id="payroll" onsubmit>
+        <form id="payroll" onsubmit=${onSubmit}>
           <fieldset class="this-page-only">
             <legend>Payslip Details </legend>
             ${Object.keys(state.payslip).map(key => {
               return choo.view`
-                <div class="table">
-                    <div class="cell label"> <label for="${key}">${key}</label> </div>
-                    <div class="cell input"> <input id="${key}" value=${state.payslip[key]} disabled />  </div>
-                </div>
+                <dl class="table">
+                    <dt class="cell label"> <label for="${key}">${key.toUpperCase()}</label> </dt>
+                    <dd class="cell input"> ${state.payslip[key]}  </dd>
+                </dl>
               `
             })}
           </fieldset>
