@@ -18,6 +18,7 @@ module.exports = (params, state, send) => {
                   <li><a href="/employees">Employees</a></li>
                   <li><a href="/paygrades">Pay Grades</a></li>
                   <li><a href="/payrolls">Pay Roll</a></li>
+                  <li><a href="/leave">Leave Management</a></li>
                 </ul>
               </nav>
             </div>

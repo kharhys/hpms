@@ -15,6 +15,7 @@ app.router((route) => [
   route('/paygrades', require('./views/paygrades')),
   route('/addpaygrade', require('./views/paygrades/add')),
   route('/addemployee', require('./views/employees/add')),
+  route('/leave', require('./views/leave')),
 ])
 
 const tree = app.start();

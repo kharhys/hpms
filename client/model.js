@@ -13,7 +13,8 @@ const app = feathers()
     .configure(socketio(socket))
     .configure(authentication({ storage: window.localStorage }))
 
-//console.log('window.jsPDF', window.jsPDF)
+const employeeService = app.service('employees')
+const paygradeService = app.service('paygrades')
 
 const exportPDF = data => {
   const doc = new jsPDF()
@@ -23,6 +24,15 @@ const exportPDF = data => {
     'width': 500
   })
   doc.save(`payslip-${Date.now()}.pdf`)
+}
+
+const updateEmployee = (action, state, send) => {
+  let data = action.data
+  let id = action.data._id
+  console.log('state.employee :: ', id, data)
+  employeeService.update(id, data)
+    .then(res => send('app:location', { location: '/employees' }) )
+    .catch(res => console.log(res) )
 }
 
 
@@ -35,9 +45,6 @@ const login = (action, state, send) => {
     })
     .catch(result => console.log('Error Authenticating: ', result))
 }
-
-const employeeService = app.service('employees')
-const paygradeService = app.service('paygrades')
 
 const employeeSubscription = send => {
   employeeService.find()
@@ -86,6 +93,13 @@ const removeEmployee = (action, state, send) => {
     })
 }
 
+const getEmployee = (action, state, send) => {
+  let rec = state.employees.filter(obj => obj.eid == action.data)[0]
+  console.log('REC ::', rec)
+  if (!rec) { rec = {} }
+  send('setEmployee', { data: rec})
+}
+
 
 module.exports = {
   state: {
@@ -101,7 +115,9 @@ module.exports = {
   effects: {
     login: login,
     exportPDF: exportPDF,
+    getEmployee:  getEmployee,
     findEmployee: fetchEmployee,
+    updateEmployee: updateEmployee,
     removeEmployee: removeEmployee,
     createEmployee: (action, state, send) => employeeService.create(action.data),
     createPaygrade: (action, state, send) => paygradeService.create(action.data)
