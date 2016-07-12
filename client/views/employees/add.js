@@ -10,7 +10,8 @@ const form = (params, state, send) => {
       eid: document.getElementById('eid').value,
       name: document.getElementById('name').value,
       jobtype: document.getElementById('jobtype').value,
-      bankaccount: document.getElementById('bankaccount').value
+      bankaccount: document.getElementById('bankaccount').value,
+      description: document.getElementById('description').value
     }
     if(document.getElementById('jobtype').value == 'Salary') {
       formdata = Object.assign(formdata, {
@@ -80,6 +81,11 @@ const form = (params, state, send) => {
               <option value="Hourly">Hourly</option>
             </select>
           </div>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'description').length ? 'error' : ''}
+            name='description' id='description',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'description').length ? state.form.errors.filter(o => o.field == 'description')[0]['message'] : 'Job Description'}
+            type='text'>
           <input
             class=${state.form.errors && state.form.errors.filter(o => o.field == 'salary').length ? 'error' : ''}
             name='salary' id='salary',

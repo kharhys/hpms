@@ -19,6 +19,8 @@ module.exports = (params, state, send) => {
                   <li><a href="/payrolls">PayRoll</a></li>
                   <li><a href="/leave">Leave</a></li>
                   <li><a href="/assess">Assessment</a></li>
+                  <li><a href="/help">Help</a></li>
+                  <li><a href="/">Logout</a></li>
                 </ul>
               </nav>
             </div>

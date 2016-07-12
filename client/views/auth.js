@@ -46,7 +46,6 @@ const page = (params, state, send) => {
               </div>
 
               <button class="btn btn-primary btn-large btn-block" type="submit" >login</button>
-              <a class="login-link" href="#">Lost your password?</a>
             </form>
           </div>
         </div>
