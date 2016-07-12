@@ -26,12 +26,25 @@ const exportPDF = data => {
   doc.save(`payslip-${Date.now()}.pdf`)
 }
 
+const viewEmployee = (action, state, send) => {
+  let rec = state.employees.filter(obj =>obj._id == action.data)[0]
+  send('setEmployee', { data: rec })
+  send('app:location', { location: '/employee' })
+}
+
 const updateEmployee = (action, state, send) => {
   let data = action.data
   let id = action.data._id
   console.log('state.employee :: ', id, data)
   employeeService.update(id, data)
-    .then(res => send('app:location', { location: '/employees' }) )
+    .then(res => {
+      employeeService.find()
+        .then(res => {
+          send('setEmployee', { data: {} })
+          send('loadEmployees', { data: res.data })
+          send('app:location', { location: '/employees' })
+      })
+    })
     .catch(res => console.log(res) )
 }
 
@@ -89,7 +102,7 @@ const removeEmployee = (action, state, send) => {
     .then(res => {
       //console.log('removed employee: ', res)
       send('spliceEmployee', { data: action.data })
-      send('app:location', { location: '/' })
+      send('app:location', { location: '/employees' })
     })
 }
 
@@ -116,6 +129,7 @@ module.exports = {
     login: login,
     exportPDF: exportPDF,
     getEmployee:  getEmployee,
+    viewEmployee: viewEmployee,
     findEmployee: fetchEmployee,
     updateEmployee: updateEmployee,
     removeEmployee: removeEmployee,

@@ -6,10 +6,10 @@ const form = (params, state, send) => {
   const onSubmit = event => {
     event.preventDefault()
     let formdata = {
-      workstatus: 'ON LEAVE',
-      leave: {
-        enddate: document.getElementById('enddate').value,
-        startdate: document.getElementById('startdate').value
+      assessment: {
+        date: document.getElementById('date').value,
+        endtime: document.getElementById('endtime').value,
+        starttime: document.getElementById('starttime').value
       }
     }
     let data = Object.assign(formdata, state.employee)
@@ -19,7 +19,7 @@ const form = (params, state, send) => {
   return choo.view`
     <section id="payroll-page" class="page">
       <header>
-        <h1>Leave Management</h1>
+        <h1>Hourly Assessment</h1>
         <div class="btn-multi">
           <input type="checkbox" id="multi-btn" name="multi-btn" />
         </div>
@@ -28,18 +28,18 @@ const form = (params, state, send) => {
         <form id="payroll" onsubmit=${onSubmit}>
           ${Object.keys(state.employee).length ? (choo.view`
             <fieldset class="this-page-only">
-              <legend>Leave Period</legend>
+              <legend>Work Period</legend>
               <div class="table">
-                  <div class="cell label"> <label for="startdate">Start Date</label> </div>
-                  <div class="cell input"> <input type="date" id="startdate"/>  </div>
+                <div class="cell label"> <label for="date">Date</label> </div>
+                <div class="cell input"> <input type="date" id="date"/>  </div>
               </div>
               <div class="table">
-                  <div class="cell label"> <label for="enddate">End Date</label> </div>
-                  <div class="cell input"> <input type="date" id="enddate"/>  </div>
+                  <div class="cell label"> <label for="starttime">Start Time</label> </div>
+                  <div class="cell input"> <input type="time" id="starttime"/>  </div>
               </div>
               <div class="table">
-                  <div class="cell label"> <label for="description">Description of Leave</label> </div>
-                  <div class="cell input"> <input type="text" id="description"/>  </div>
+                  <div class="cell label"> <label for="endtime">End Time</label> </div>
+                  <div class="cell input"> <input type="time" id="endtime"/>  </div>
               </div>
             </fieldset>
           `) : (undefined)}

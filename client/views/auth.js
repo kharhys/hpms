@@ -57,7 +57,6 @@ const page = (params, state, send) => {
 
 module.exports = (params, state, send) => choo.view`
   <div>
-    ${menu(params, state, send)}
     ${page(params, state, send)}
   </div>
 `

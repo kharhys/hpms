@@ -14,11 +14,11 @@ module.exports = (params, state, send) => {
             <div class="light-color">
               <nav>
                 <ul>
-                  <li><a href="/" class="active-menu">Home</a></li>
                   <li><a href="/employees">Employees</a></li>
-                  <li><a href="/paygrades">Pay Grades</a></li>
-                  <li><a href="/payrolls">Pay Roll</a></li>
-                  <li><a href="/leave">Leave Management</a></li>
+                  <li><a href="/paygrades">Grades</a></li>
+                  <li><a href="/payrolls">PayRoll</a></li>
+                  <li><a href="/leave">Leave</a></li>
+                  <li><a href="/assess">Assessment</a></li>
                 </ul>
               </nav>
             </div>
