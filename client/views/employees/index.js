@@ -3,7 +3,7 @@ const choo = require('choo')
 const menu = require('../menu')
 
 const datapoints = [
-  "Employee ID", "Name",  "Salary", "Type", "Account", "Work Status", " "
+  "Employee ID", "Name",  "Type", "Account", "Salary", "Work Status", " "
 ]
 
 const toggleMenu = event => {
