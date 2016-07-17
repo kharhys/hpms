@@ -15,7 +15,17 @@ const form = (params, state, send) => {
       grade: document.getElementById('grade').value,
       allowances: document.getElementById('allowances').value
     }
-    send('createPaygrade', { data: formdata })
+    console.log(formdata)
+    let errors = []
+    Object.keys(formdata).map(key => {
+      if (formdata[key] == "") { errors.push({ field: key, message: `${document.getElementById(`${key}`).placeholder} is required`})  }
+    })
+    console.log(errors.length)
+    if (errors.length > 0)
+      send('formError', { data: { formdata: formdata, errors: errors } })
+    else
+      //console.log(errors)
+      send('createPaygrade', { data: formdata })
   }
 
   return choo.view`
@@ -31,13 +41,41 @@ const form = (params, state, send) => {
       </header>
       <main>
         <form class='login' onsubmit=${onSubmit}>
-          <input name='grade', id='grade', placeholder='Job Grade' type='text'>
-          <input name='min' id='min', placeholder='Min Salary' type='text'>
-          <input name='max' id='max', placeholder='Max Salary' type='text'>
-          <input name='nssf' id='nssf', placeholder='NSSF Deductions' type='text'>
-          <input name='nhif' id='nhif', placeholder='NHIF Deductions' type='text'>
-          <input name='paye' id='paye', placeholder='PAYE Deductions' type='text'>
-          <input name='allowances' id='allowances', placeholder='Allowances' type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'grade').length ? 'error' : ''}
+            name='grade', id='grade',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'grade').length ? state.form.errors.filter(o => o.field == 'grade')[0]['message'] : 'Job Grade'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'min').length ? 'error' : ''}
+            name='min' id='min',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'min').length ? state.form.errors.filter(o => o.field == 'min')[0]['message'] : 'Min Salary'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'max').length ? 'error' : ''}
+             name='max' id='max',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'max').length ? state.form.errors.filter(o => o.field == 'max')[0]['message'] : 'Max Salary'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'nssf').length ? 'error' : ''}
+             name='nssf' id='nssf',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'nssf').length ? state.form.errors.filter(o => o.field == 'nssf')[0]['message'] : 'NSSF Deductions'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'nhif').length ? 'error' : ''}
+             name='nhif' id='nhif',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'nhif').length ? state.form.errors.filter(o => o.field == 'nhif')[0]['message'] : 'NHIF Deductions'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'paye').length ? 'error' : ''}
+             name='paye' id='paye',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'paye').length ? state.form.errors.filter(o => o.field == 'paye')[0]['message'] : 'PAYE Deductions'}
+            type='text'>
+          <input
+            class=${state.form.errors && state.form.errors.filter(o => o.field == 'allowances').length ? 'error' : ''}
+             name='allowances' id='allowances',
+            placeholder=${state.form.errors && state.form.errors.filter(o => o.field == 'allowances').length ? state.form.errors.filter(o => o.field == 'allowances')[0]['message'] : 'Allowances'}
+            type='text'>
           <input class='animated mt' type='submit' value='Submit'>
         </form>
       </main>

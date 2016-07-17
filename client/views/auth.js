@@ -24,32 +24,40 @@ const page = (params, state, send) => {
     }
   }
 
+
+
   return choo.view`
     <article id="panels">
-      <div class="container">
-        <div class="login">
-          <div class="login-screen">
-            <div class="app-title">
-              <h1>Login</h1>
+      <header>
+        <a href="#" id="logo"> </a>
+      </header>
+      <section id="hero1" class="hero">
+        <div class="inner">
+          <div class="copy">
+            <div class="login-screen">
+              ${showErrors()}
+              <div class="form_container">
+                <form onsubmit=${onSubmit}>
+                  <h1>Login</h1>
+                  <div class="fields">
+                    <div class="field half">
+                      <label for="surname">User name</label>
+                      <input type="email" id="email"/>
+                    </div>
+                    <div class="field half last">
+                      <label for="name">Password</label>
+                      <input type="password" id="password"/>
+                    </div>
+                  </div>
+                  <div class="button login">
+                     <button type="submit"><span>SUBMIT</span> <i class="fa fa-check"></i></button>
+                  </div>
+                </form>
+              </div>
             </div>
-            ${showErrors()}
-
-            <form class="login-form" onsubmit=${onSubmit}>
-              <div class="control-group">
-              <input type="text" class="login-field" value="" placeholder="username" id="email">
-              <label class="login-field-icon fui-user" for="login-name"></label>
-              </div>
-
-              <div class="control-group">
-              <input type="password" class="login-field" value="" placeholder="password" id="password">
-              <label class="login-field-icon fui-lock" for="login-pass"></label>
-              </div>
-
-              <button class="btn btn-primary btn-large btn-block" type="submit" >login</button>
-            </form>
           </div>
         </div>
-      </div>
+      </section>
     </article>
   `
 }

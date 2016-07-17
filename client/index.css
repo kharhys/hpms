@@ -1,4 +1,218 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400|Inconsolata);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400|Roboto);
+
+
+.button.login button,
+.button button {
+   width: 50%;
+   line-height: 50px;
+   left: 0%;
+   background-color: transparent;
+   border: 3px solid #fff;
+   font-weight: 900;
+   font-size: 18px;
+   color: #fff;
+   margin-top: 1rem;
+}
+
+.button.login {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+   margin-top: 20px;
+}
+
+.button button {
+   background-color: #fff;
+   color: #ED2553;
+   border: none;
+}
+
+.button.login button.active {
+   border: 2px solid transparent;
+   color: #fff !important;
+}
+
+.button.login button.active span {
+   opacity: 0;
+   transform: scale(0);
+   -webkit-transform: scale(0);
+   -ms-transform: scale(0);
+}
+
+.button.login button:hover {
+   color: #ED2553;
+   border-color: #ED2553;
+}
+
+.button {
+   margin: 20px 0;
+   overflow: hidden;
+   z-index: 2;
+}
+
+.button button {
+   cursor: pointer;
+   position: relative;
+   z-index: 2;
+}
+
+
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #555 !important;
+}
+
+/* VARS */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.form_container {
+  font-size: 1rem;
+}
+
+.form_container {
+  margin: 1rem auto;
+  max-width: 700px;
+}
+
+.form_container form > h1 {
+  margin-bottom: 1rem;
+}
+
+.form_container form > div:first-child {
+  flex: 4;
+}
+.form_container form > div:last-child {
+  flex: 1;
+  margin: 0.8rem;
+}
+.form_container form {
+  margin: 1rem 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form_container form:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+.form_container form .field {
+  display: block;
+  border: 1px solid #BDBDBD;
+  float: left;
+  width: 100%;
+}
+.form_container form .field.tnb {
+  border-top: 0;
+}
+.form_container form .field.half {
+  width: 50%;
+}
+.form_container form .field.last {
+  border-left: 0;
+}
+.form_container form .field label {
+  display: block;
+  font-size: 0.8rem;
+  padding: 0.8rem;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.form_container form .field input,
+.form_container form .field textarea {
+  display: block;
+  width: 100%;
+  padding: .5rem 2rem 1.5rem;
+  font-size: 1.1rem;
+  border: 0;
+  color: #212121;
+  outline: 0;
+}
+.form_container form .field textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+
+
+
+
+
+
+#hero1 {
+  background: url(http://images.slideplayer.com/4/1468184/slides/slide_1.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+#hero2 {
+  background: url(http://images.slideplayer.com/4/1468184/slides/slide_1.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.hero, .content {
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+.inner {
+  min-height: 600px;
+  position: relative;
+}
+
+.hero .inner {
+  background: rgba(0, 0, 0, 0.7) url(http://images.slideplayer.com/4/1468184/slides/slide_1.jpg);
+  background-size: cover;
+  /* <------ */
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.copy {
+  position: absolute;
+  top: 25%;
+  height: 17em;
+  margin-top: -5em;
+  width: 100%;
+  background: #000;
+}
+
+.hero h1, .hero p {
+  color: #fff;
+}
+
+.content h1, .content p {
+  color: #333;
+}
+
+h1 {
+  margin: 0px;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400;
+  font-size: 32px;
+  padding: 0px 20px;
+}
+
+p {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 14px;
+  padding: 0px 20px;
+}
+
+
+
 
 
 .login {
@@ -596,13 +810,8 @@ label.demo-label:hover {
   margin-top: 8px;
 }
 
-code,
-pre {
-  color: #c0392b;
+* {
   font-family: Inconsolata, "Andale Mono", Andale, monowidth;
-  background-color: #ecf0f1;
-  border: 1px solid #dfdfdf;
-  border-radius: 2px;
 }
 
 code {
